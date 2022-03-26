@@ -1,5 +1,4 @@
 .Card_wrap {
-  width: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,4 +7,9 @@
   border: 1px solid green;
   border-radius: 10px;
   box-sizing: border-box;
+}
+
+.memorized {
+  background: green;
+  color: white;
 }

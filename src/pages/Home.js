@@ -9,12 +9,10 @@ const Home = () => {
   const list = useSelector((state) => state.word.list);
 
   return (
-    <>
-      <div className="contents_wrap">
-        {list.map((word, i) => {
-          return <Card key={word.id} data={word} />;
-        })}
-      </div>
+    <div className="contents_wrap">
+      {list.map((word, i) => {
+        return <Card key={word.id} data={word} />;
+      })}
       <div
         className="fixed_add_button"
         onClick={() => {
@@ -23,7 +21,7 @@ const Home = () => {
       >
         <h4>+</h4>
       </div>
-    </>
+    </div>
   );
 };
 
