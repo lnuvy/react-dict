@@ -14,13 +14,17 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
+import { loadDataFB } from "./redux/modules/word";
 
 import theme from "./theme";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
   useEffect(async () => {
     console.log(db);
+    dispatch(loadDataFB());
     // 가져오기
     // const query = await getDocs(collection(db, "dicts"));
     // console.log(query);

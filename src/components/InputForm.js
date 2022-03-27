@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addWord, editWord } from "../redux/modules/word";
+import { addDataFB, addWord, editWord } from "../redux/modules/word";
 import "./styles/InputForm.css";
 
 const InputForm = ({ data }) => {
@@ -36,8 +36,11 @@ const InputForm = ({ data }) => {
 
   const onSubmit = () => {
     if (concept === "추가") {
+      // dispatch(
+      //   addWord()
+      // );
       dispatch(
-        addWord({ word: sinjo, description: mean, example: exam, url: link })
+        addDataFB({ word: sinjo, description: mean, example: exam, url: link })
       );
     } else {
       dispatch(

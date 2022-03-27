@@ -15,8 +15,6 @@ const Card = ({ data }) => {
     dispatch(heardWord(id));
   };
 
-  console.log(id, knew);
-
   return (
     <div className="Card_wrap">
       <h3

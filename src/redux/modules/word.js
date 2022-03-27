@@ -1,4 +1,16 @@
+import { db } from "../../firebase";
+import {
+  collection,
+  getDoc,
+  getDocs,
+  addDoc,
+  doc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
+
 // Actions
+const LOAD = "dict/LOAD";
 
 const ADD = "dict/ADD";
 const EDIT = "dict/EDIT";
@@ -35,6 +47,10 @@ const initialState = {
 };
 
 // Action Creators
+export const loadWord = (list) => {
+  return { type: LOAD, list };
+};
+
 export const addWord = (dict) => {
   return { type: ADD, dict };
 };
@@ -51,14 +67,43 @@ export const deleteWord = (id) => {
   return { type: DELETE, id };
 };
 
+// middlewares
+export const loadDataFB = () => {
+  return async function (dispatch) {
+    const word_data = await getDocs(collection(db, "dicts"));
+
+    let word_list = [];
+
+    word_data.forEach((doc) => {
+      word_list.push({ ...doc.data() });
+    });
+    dispatch(loadWord(word_list));
+  };
+};
+
+export const addDataFB = (data) => {
+  return async function (dispatch) {
+    const docRef = await addDoc(collection(db, "dicts"), data);
+    const _data = await getDoc(docRef);
+    console.log(_data.id);
+    const dict = { id: new Date().getTime() + "", ..._data.data() };
+    console.log(dict);
+
+    dispatch(addWord(dict));
+  };
+};
+
 // Reducer
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
+    case "dict/LOAD": {
+      return { list: action.list };
+    }
     case "dict/ADD": {
       const new_list = [
         ...state.list,
         {
-          id: new Date().getTime() + "",
+          id: action.dict.id,
           word: action.dict.word,
           description: action.dict.description,
           example: action.dict.example,
