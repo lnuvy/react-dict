@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addDataFB, addWord, editWord } from "../redux/modules/word";
+import {
+  addDataFB,
+  addWord,
+  editDataFB,
+  editWord,
+} from "../redux/modules/word";
 import "./styles/InputForm.css";
 
 const InputForm = ({ data }) => {
@@ -40,11 +45,17 @@ const InputForm = ({ data }) => {
       //   addWord()
       // );
       dispatch(
-        addDataFB({ word: sinjo, description: mean, example: exam, url: link })
+        addDataFB({
+          word: sinjo,
+          description: mean,
+          example: exam,
+          url: link,
+          heard: false,
+        })
       );
     } else {
       dispatch(
-        editWord({
+        editDataFB({
           id: id,
           word: sinjo,
           description: mean,
@@ -53,20 +64,29 @@ const InputForm = ({ data }) => {
         })
       );
     }
-    navigate(-1);
+    navigate("/");
   };
 
   return (
     <div className="total_wrap">
       <h2>{concept}하기</h2>
-      <p>신조어</p>
-      <input id="sin" type="text" value={sinjo} onChange={handleChange} />
-      <p>뜻/어원</p>
-      <input id="mean" type="text" value={mean} onChange={handleChange} />
-      <p>활용 예시</p>
-      <input id="exam" type="text" value={exam} onChange={handleChange} />
-      <p>링크</p>
-      <input id="url" type="text" value={link} onChange={handleChange} />
+      <div className="input-box">
+        <input id="sin" type="text" placeholder=" "></input>
+        <label>신조어</label>
+      </div>
+      <div className="input-box">
+        <input id="mean" type="text" placeholder=" "></input>
+        <label>뜻/어원</label>
+      </div>
+      <div className="input-box">
+        <input id="exam" type="text" placeholder=" "></input>
+        <label>활용 예시</label>
+      </div>
+      <div className="input-box">
+        <input id="url" type="text" placeholder=" "></input>
+        <label>링크</label>
+      </div>
+
       <button onClick={onSubmit}>{concept}</button>
     </div>
   );

@@ -8,7 +8,6 @@ const Edit = (props) => {
   const data = useSelector((state) => state.word.list).filter(
     (l) => l.id === id
   )[0];
-  console.log(data);
 
   return <InputForm data={data} />;
 };

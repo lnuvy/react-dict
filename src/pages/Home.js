@@ -1,17 +1,16 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Card from "../components/Card";
+import Item from "../components/Item";
 import "./styles/Home.css";
 
-const Home = () => {
+const Home = ({ list }) => {
   const navigate = useNavigate();
-  const list = useSelector((state) => state.word.list);
 
   return (
     <div className="contents_wrap">
-      {list.map((word, i) => {
-        return <Card key={word.id} data={word} />;
+      {list.map((word) => {
+        return <Item key={word.id} data={word} />;
       })}
       <div
         className="fixed_add_button"

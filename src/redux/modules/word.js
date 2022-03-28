@@ -8,6 +8,7 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
+import { async } from "@firebase/util";
 
 // Actions
 const LOAD = "dict/LOAD";
@@ -34,14 +35,6 @@ const initialState = {
       example: "저 친구가 초콜릿을 줬어. ㅎ1ㅎ1",
       url: "www.naver.com",
       heard: false,
-    },
-    {
-      id: "16800000",
-      word: "ㅎ1ㅎ1",
-      description: "히히를 변현한 단어...",
-      example: "저 친구가 초콜릿을 줬어. ㅎ1ㅎ1",
-      url: "www.naver.com",
-      heard: true,
     },
   ],
 };
@@ -75,7 +68,7 @@ export const loadDataFB = () => {
     let word_list = [];
 
     word_data.forEach((doc) => {
-      word_list.push({ ...doc.data() });
+      word_list.push({ id: doc.id, ...doc.data() });
     });
     dispatch(loadWord(word_list));
   };
@@ -85,11 +78,37 @@ export const addDataFB = (data) => {
   return async function (dispatch) {
     const docRef = await addDoc(collection(db, "dicts"), data);
     const _data = await getDoc(docRef);
-    console.log(_data.id);
-    const dict = { id: new Date().getTime() + "", ..._data.data() };
-    console.log(dict);
+    const dict = { id: _data.id, ..._data.data() };
+    console.log("82: ", dict);
 
     dispatch(addWord(dict));
+  };
+};
+
+export const editDataFB = (data) => {
+  return async function (dispatch) {
+    const docRef = doc(db, "dicts", data.id);
+    await updateDoc(docRef, { ...data });
+
+    dispatch(editWord(data));
+  };
+};
+
+export const editToggleFB = (id, state) => {
+  return async function (dispatch) {
+    const docRef = doc(db, "dicts", id);
+    await updateDoc(docRef, { heard: state });
+
+    dispatch(heardWord(id));
+  };
+};
+
+export const deleteDataFB = (id) => {
+  return async function (dispatch) {
+    const docRef = doc(db, "dicts", id);
+    await deleteDoc(docRef);
+
+    dispatch(deleteWord(id));
   };
 };
 
@@ -100,6 +119,7 @@ export default function reducer(state = initialState, action = {}) {
       return { list: action.list };
     }
     case "dict/ADD": {
+      console.log(action.dict);
       const new_list = [
         ...state.list,
         {
@@ -111,7 +131,6 @@ export default function reducer(state = initialState, action = {}) {
           heard: false,
         },
       ];
-      console.log(new_list);
       return { list: new_list };
     }
     case "dict/EDIT": {
@@ -127,7 +146,6 @@ export default function reducer(state = initialState, action = {}) {
           };
         } else return l;
       });
-      console.log(new_list);
       return { list: new_list };
     }
     case "dict/HEARD": {
@@ -140,6 +158,12 @@ export default function reducer(state = initialState, action = {}) {
         } else return l;
       });
       console.log(new_list);
+      return { list: new_list };
+    }
+    case "dict/DELETE": {
+      const new_list = state.list.filter((l) => {
+        return action.id !== l.id;
+      });
       return { list: new_list };
     }
     default:
