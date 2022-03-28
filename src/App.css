@@ -1,23 +1,141 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Cute+Font&display=swap"); */
+/* @import url("https://fonts.googleapis.com/css2?family=Jua&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap");
+
 .App {
   width: 100vw;
-  height: calc(100vh - 78px);
-  margin-top: 78px;
+  height: 100vh;
+  font-family: "Sunflower", sans-serif;
 }
 
-.fixed_add_button {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  justify-items: center;
-  align-items: center;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/*  머야! */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 70%;
-  background: tomato;
+  align-items: center;
+}
+
+.flex-column-s {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.flex-column-ss {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.flex-row-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-row-start {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.hoverEvent {
+  transition: 0.2s;
+  user-select: none;
   cursor: pointer;
 }
 
-.fixed_add_button:hover {
-  transition: 1s linear;
+.hoverEvent:hover {
+  transform: scale(1.2);
+}
+.hoverEvent:active {
+  transform: scale(1);
+}
+
+.input-box {
+  position: relative;
+  width: 360px;
+  height: 40px;
+  /* background: tomato; */
+}
+
+input {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid black;
+  background-color: transparent;
+  color: black;
+  font-size: 24px;
+}
+
+.input-box label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: black;
+  transition: 0.3s;
+  user-select: none;
+  font-size: 20px;
+}
+
+.input-box input:focus + label,
+input:not(:placeholder-shown) + label {
+  transform: translateX(5px) translateY(-20px);
+  opacity: 0.5;
+  font-size: 18px;
+}
+
+.input-box input:focus {
+  border-bottom: 2px solid black;
+}
+
+.textarea-box {
+  position: relative;
+  width: 400px;
+  height: 60px;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid black;
+  background-color: transparent;
+  color: black;
+  font-size: 20px;
+}
+
+.textarea-box label {
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  color: black;
+  transition: 0.3s;
+  user-select: none;
+  font-size: 20px;
+}
+
+.textarea-box textarea:focus + label,
+textarea:not(:placeholder-shown) + label {
+  transform: translateX(5px) translateY(-60px);
+  opacity: 0.5;
+  font-size: 18px;
 }

@@ -1,11 +1,11 @@
 const responsive = {
-  twice: `@media screen and (min-width: 799px)`,
-  triple: `@media screen and (min-width: 1399px)`,
+  twice: `@media only screen and (min-width: 799px)`,
+  triple: `@media only screen and (min-width: 1399px)`,
 };
 
 const colors = {
-  mainColor: "#0A7029", // green
-  yellowGreen: "#C8DF52",
+  mainColor: "#4bcffa", // green
+  checkColor: "#3c40c6",
   mint: "#DBE8D8",
   blue: "#0984e3",
   white: "#FFFFFF",

@@ -8,7 +8,6 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { async } from "@firebase/util";
 
 // Actions
 const LOAD = "dict/LOAD";
@@ -157,7 +156,6 @@ export default function reducer(state = initialState, action = {}) {
           };
         } else return l;
       });
-      console.log(new_list);
       return { list: new_list };
     }
     case "dict/DELETE": {

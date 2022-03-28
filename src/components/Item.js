@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deleteDataFB, editToggleFB } from "../redux/modules/word";
-import { BsCheckLg, BsFillTrashFill } from "react-icons/bs";
-import "./styles/Card.css";
-import styled from "styled-components";
+import { BsCheckLg, BsFillTrashFill, BsPencilSquare } from "react-icons/bs";
+import { Card } from "../Styled";
 
 const Item = ({ data }) => {
   const navigate = useNavigate();
@@ -23,32 +22,40 @@ const Item = ({ data }) => {
   };
 
   return (
-    <Card className="Card_wrap" knew={knew}>
-      <h3
+    <Card className="flex-column-ss" knew={knew}>
+      <h3>{word}</h3>
+      <div className="description_wrap flex-column-center">
+        <p>
+          {description.length < 100
+            ? description
+            : description.slice(0, 98) + "..."}
+        </p>
+      </div>
+      <p>활용 예)</p>
+      <div className="exam_wrap flex-column-center">
+        <p>{example.length < 100 ? example : example.slice(0, 98) + "..."}</p>
+      </div>
+
+      <BsCheckLg
+        className="BsCheckLg hoverEvent"
+        size={25}
+        onClick={handleToggle}
+      />
+
+      <BsPencilSquare
+        className="BsPencilSquare hoverEvent"
+        size={25}
         onClick={() => {
           navigate(`/Edit/${id}`);
         }}
-      >
-        {word}
-      </h3>
-      <p>{description}</p>
-      <p>{example}</p>
-      <BsCheckLg
-        className="bsCheckLg hoverEvent"
-        size={25}
-        onClick={handleToggle}
-      ></BsCheckLg>
+      />
       <BsFillTrashFill
-        className="hoverEvent"
+        className="BsFillTrashFill hoverEvent"
         size={25}
         onClick={handleRemove}
       />
     </Card>
   );
 };
-
-const Card = styled.div`
-  background: ${(props) => (props.knew ? "tomato" : "gray")};
-`;
 
 export default Item;

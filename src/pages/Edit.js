@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import InputForm from "../components/InputForm";
 
-const Edit = (props) => {
+const Edit = () => {
   const { id } = useParams();
   const data = useSelector((state) => state.word.list).filter(
     (l) => l.id === id

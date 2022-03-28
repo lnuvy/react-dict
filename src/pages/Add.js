@@ -4,7 +4,11 @@ import InputForm from "../components/InputForm";
 const Add = () => {
   const empty = { word: "", description: "", example: "", url: "" };
 
-  return <InputForm data={empty} />;
+  return (
+    <div>
+      <InputForm data={empty} />
+    </div>
+  );
 };
 
 export default Add;
