@@ -5,12 +5,10 @@ import InputForm from "../components/InputForm";
 import NotFound from "./NotFound";
 
 const Edit = () => {
-  const params = useParams();
-  const { id } = params;
+  const { id } = useParams();
   const data = useSelector((state) => state.word.list).filter(
     (l) => l.id === id
   )[0];
-  console.log(data);
 
   return data ? <InputForm data={data} /> : <NotFound />;
 };
