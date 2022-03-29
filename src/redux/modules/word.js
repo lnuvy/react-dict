@@ -60,13 +60,11 @@ export const loadDataFB = () => {
     querySnapshot.forEach((doc) => {
       if (word_list.length < LOAD_COUNT) {
         word_list.push({ id: doc.id, ...doc.data() });
-        console.log("push:", { id: doc.id, ...doc.data() });
       } else {
         lastId = doc.id;
         return;
       }
     });
-    console.log(word_list, lastId);
     dispatch(loadWord(word_list, lastId));
   };
 };

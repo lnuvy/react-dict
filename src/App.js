@@ -25,7 +25,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/add" element={<Add />} />
             <Route path="/edit/:id" element={<Edit />} />
-            <Route path="/*" element={<NotFound />} />
+            <Route path="/edit/*" element={<NotFound />} />
           </Routes>
         </Container>
       </div>
