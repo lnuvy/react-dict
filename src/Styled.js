@@ -28,16 +28,18 @@ const FixBtn = styled.div`
   width: 60px;
   height: 60px;
   border-radius: 70%;
-  background: tomato;
+  background: ${theme.colors.mainColor};
   cursor: pointer;
   text-align: center;
   font-size: 30px;
   font-weight: 600;
-  line-height: 55px;
+  line-height: 60px;
   transition: 1s;
 
   &:hover {
     transform: rotate(270deg);
+    background: ${theme.colors.checkColor};
+    color: white;
   }
 `;
 
@@ -62,18 +64,20 @@ const Card = styled.div`
   padding: 20px;
 
   font-size: ${theme.fontSizes.md};
-  background: ${(props) => (props.knew ? "#c56cf0" : "#ffcccc")};
+  background: ${(props) =>
+    props.knew ? theme.colors.checkColor : theme.colors.mainColor};
   color: ${(props) => (props.knew ? "#fff" : "#000")};
 
   h3 {
     font-size: ${theme.fontSizes.xl};
-    font-weight: 500;
+    font-weight: 600;
   }
   p {
     padding: 5px;
     font-size: 14px;
   }
   .description_wrap {
+    font-weight: 600;
     height: 60px;
   }
   .exam_wrap {
@@ -117,6 +121,7 @@ const InputWrap = styled.div`
   gap: 40px;
 
   button {
+    width: calc(100% / 3);
     height: 50px;
     border: none;
     background-color: ${theme.colors.mainColor};

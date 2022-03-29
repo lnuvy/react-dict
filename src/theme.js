@@ -4,12 +4,12 @@ const responsive = {
 };
 
 const colors = {
-  mainColor: "#4bcffa", // green
-  checkColor: "#3c40c6",
+  mainColor: "#ffcccc",
+  checkColor: "#c56cf0",
   mint: "#DBE8D8",
   blue: "#0984e3",
-  white: "#FFFFFF",
-  black: "000000",
+  white: "#fff",
+  black: "#000",
 };
 
 const fontSizes = {

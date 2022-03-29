@@ -3,21 +3,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap");
 
 .App {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   font-family: "Sunflower", sans-serif;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/*  머야! */
+/* 머야!
 *::-webkit-scrollbar {
   display: none;
-}
+} */
 
 .flex-column-center {
   display: flex;

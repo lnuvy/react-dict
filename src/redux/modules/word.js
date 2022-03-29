@@ -11,6 +11,7 @@ import {
 
 // Actions
 const LOAD = "dict/LOAD";
+const LOAD_MORE = "dict/LOAD_MORE";
 
 const ADD = "dict/ADD";
 const EDIT = "dict/EDIT";
@@ -18,29 +19,17 @@ const DELETE = "dict/DELETE";
 const HEARD = "dict/HEARD";
 
 const initialState = {
-  list: [
-    {
-      id: "12345555",
-      word: "ㅎ1ㅎ1",
-      description: "히히를 변현한 단어...",
-      example: "저 친구가 초콜릿을 줬어. ㅎ1ㅎ1",
-      url: "www.naver.com",
-      heard: false,
-    },
-    {
-      id: "22222222",
-      word: "ㅎ1ㅎ1",
-      description: "히히를 변현한 단어...",
-      example: "저 친구가 초콜릿을 줬어. ㅎ1ㅎ1",
-      url: "www.naver.com",
-      heard: false,
-    },
-  ],
+  list: [],
+  lastValue: 0,
 };
 
 // Action Creators
-export const loadWord = (list) => {
-  return { type: LOAD, list };
+export const loadWord = (list, lastValue) => {
+  return { type: LOAD, list, lastValue };
+};
+
+export const loadMoreWord = (list, lastValue) => {
+  return { type: LOAD_MORE, list, lastValue };
 };
 
 export const addWord = (dict) => {
@@ -60,16 +49,53 @@ export const deleteWord = (id) => {
 };
 
 // middlewares
+const LOAD_COUNT = 10;
+
 export const loadDataFB = () => {
   return async function (dispatch) {
-    const word_data = await getDocs(collection(db, "dicts"));
+    const querySnapshot = await getDocs(collection(db, "dicts"));
 
     let word_list = [];
-
-    word_data.forEach((doc) => {
-      word_list.push({ id: doc.id, ...doc.data() });
+    let lastId;
+    querySnapshot.forEach((doc) => {
+      if (word_list.length < LOAD_COUNT) {
+        word_list.push({ id: doc.id, ...doc.data() });
+        console.log("push:", { id: doc.id, ...doc.data() });
+      } else {
+        lastId = doc.id;
+        return;
+      }
     });
-    dispatch(loadWord(word_list));
+    console.log(word_list, lastId);
+    dispatch(loadWord(word_list, lastId));
+  };
+};
+
+export const loadMoreFB = (before_id) => {
+  return async function (dispatch) {
+    const querySnapshot = await getDocs(collection(db, "dicts"));
+
+    let word_list = [];
+    let lastValue = 0;
+    let beforeId = before_id;
+    let listCount = 0;
+
+    querySnapshot.forEach((doc, i = 0) => {
+      i++;
+      lastValue++;
+      if (doc.id === beforeId) {
+        word_list.push({ id: doc.id, ...doc.data() });
+        console.log("이때 lastValue 값:", lastValue);
+      }
+      if (listCount) {
+        listCount++;
+      }
+      console.log(i);
+      console.log("listCount:", listCount);
+      console.log("lastValue:", lastValue);
+    });
+    console.log(word_list, lastValue);
+    dispatch(loadMoreWord(word_list, lastValue));
   };
 };
 
@@ -115,21 +141,28 @@ export const deleteDataFB = (id) => {
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "dict/LOAD": {
-      return { list: action.list };
+      return { list: action.list, lastValue: action.lastValue };
     }
+    case "dict/LOAD_MORE":
+      return {
+        ...state,
+        list: [...state.list, ...action.list],
+        lastValue: action.lastValue,
+      };
     case "dict/ADD": {
       console.log(action.dict);
       const new_list = [
         ...state.list,
         {
           id: action.dict.id,
+          heard: false,
           word: action.dict.word,
           description: action.dict.description,
           example: action.dict.example,
           url: action.dict.url,
-          heard: false,
         },
       ];
+      console.log(new_list);
       return { list: new_list };
     }
     case "dict/EDIT": {

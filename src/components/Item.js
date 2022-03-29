@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deleteDataFB, editToggleFB } from "../redux/modules/word";
 import { BsCheckLg, BsFillTrashFill, BsPencilSquare } from "react-icons/bs";
 import { Card } from "../Styled";
 
-const Item = ({ data }) => {
+const Item = forwardRef(({ data }, ref) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id, word, description, example, heard } = data;
@@ -22,7 +22,7 @@ const Item = ({ data }) => {
   };
 
   return (
-    <Card className="flex-column-ss" knew={knew}>
+    <Card className="flex-column-ss" knew={knew} ref={ref}>
       <h3>{word}</h3>
       <div className="description_wrap flex-column-center">
         <p>
@@ -56,6 +56,6 @@ const Item = ({ data }) => {
       />
     </Card>
   );
-};
+});
 
 export default Item;

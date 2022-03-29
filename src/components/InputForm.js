@@ -10,7 +10,6 @@ const InputForm = ({ data }) => {
   const { id } = data;
 
   const [inputs, setInputs] = useState({ data }.data);
-  console.log(inputs);
 
   const concept = !id ? "추가하기" : "수정하기";
 
@@ -23,7 +22,7 @@ const InputForm = ({ data }) => {
 
   const onSubmit = () => {
     if (concept === "추가하기") {
-      dispatch(addDataFB(inputs));
+      dispatch(addDataFB({ ...inputs, heard: false }));
     } else {
       dispatch(editDataFB(inputs));
     }
