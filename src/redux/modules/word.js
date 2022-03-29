@@ -7,6 +7,10 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  orderBy,
+  query,
+  limit,
+  startAfter,
 } from "firebase/firestore";
 
 // Actions
@@ -20,16 +24,16 @@ const HEARD = "dict/HEARD";
 
 const initialState = {
   list: [],
-  lastValue: 0,
+  lastDate: 0,
 };
 
 // Action Creators
-export const loadWord = (list, lastValue) => {
-  return { type: LOAD, list, lastValue };
+export const loadWord = (list, lastDate) => {
+  return { type: LOAD, list, lastDate };
 };
 
-export const loadMoreWord = (list, lastValue) => {
-  return { type: LOAD_MORE, list, lastValue };
+export const loadMoreWord = (list, lastDate) => {
+  return { type: LOAD_MORE, list, lastDate };
 };
 
 export const addWord = (dict) => {
@@ -49,51 +53,39 @@ export const deleteWord = (id) => {
 };
 
 // middlewares
-const LOAD_COUNT = 10;
-
 export const loadDataFB = () => {
   return async function (dispatch) {
-    const querySnapshot = await getDocs(collection(db, "dicts"));
+    const dicts_db = collection(db, "dicts");
 
     let word_list = [];
-    let lastId;
+    let lastDate;
+
+    const q = query(dicts_db, orderBy("date"), limit(4));
+    const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      if (word_list.length < LOAD_COUNT) {
-        word_list.push({ id: doc.id, ...doc.data() });
-      } else {
-        lastId = doc.id;
-        return;
-      }
+      word_list.push({ id: doc.id, ...doc.data() });
+      lastDate = doc.data().date;
     });
-    dispatch(loadWord(word_list, lastId));
+    dispatch(loadWord(word_list, lastDate));
   };
 };
 
 export const loadMoreFB = (before_id) => {
   return async function (dispatch) {
-    const querySnapshot = await getDocs(collection(db, "dicts"));
-
+    const dicts_db = collection(db, "dicts");
     let word_list = [];
-    let lastValue = 0;
-    let beforeId = before_id;
-    let listCount = 0;
+    let lastDate = before_id;
 
-    querySnapshot.forEach((doc, i = 0) => {
-      i++;
-      lastValue++;
-      if (doc.id === beforeId) {
+    const q = query(dicts_db, orderBy("date"), startAfter(lastDate), limit(4));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot) {
+      querySnapshot.forEach((doc) => {
         word_list.push({ id: doc.id, ...doc.data() });
-        console.log("이때 lastValue 값:", lastValue);
-      }
-      if (listCount) {
-        listCount++;
-      }
-      console.log(i);
-      console.log("listCount:", listCount);
-      console.log("lastValue:", lastValue);
-    });
-    console.log(word_list, lastValue);
-    dispatch(loadMoreWord(word_list, lastValue));
+        lastDate = doc.data().date;
+      });
+    }
+
+    dispatch(loadMoreWord(word_list, lastDate));
   };
 };
 
@@ -139,16 +131,15 @@ export const deleteDataFB = (id) => {
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "dict/LOAD": {
-      return { list: action.list, lastValue: action.lastValue };
+      return { list: action.list, lastDate: action.lastDate };
     }
     case "dict/LOAD_MORE":
       return {
         ...state,
         list: [...state.list, ...action.list],
-        lastValue: action.lastValue,
+        lastDate: action.lastDate,
       };
     case "dict/ADD": {
-      console.log(action.dict);
       const new_list = [
         ...state.list,
         {
@@ -158,6 +149,7 @@ export default function reducer(state = initialState, action = {}) {
           description: action.dict.description,
           example: action.dict.example,
           url: action.dict.url,
+          date: action.dict.date,
         },
       ];
       console.log(new_list);

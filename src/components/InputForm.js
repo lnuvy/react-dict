@@ -16,13 +16,14 @@ const InputForm = ({ data }) => {
   const handleChange = (e) => {
     const { id } = e.target;
     const { value: text } = e.target;
-    console.log(id, text);
     setInputs((values) => ({ ...values, [id]: text }));
   };
 
   const onSubmit = () => {
     if (concept === "추가하기") {
-      dispatch(addDataFB({ ...inputs, heard: false }));
+      dispatch(
+        addDataFB({ date: new Date().getTime() + "", ...inputs, heard: false })
+      );
     } else {
       dispatch(editDataFB(inputs));
     }

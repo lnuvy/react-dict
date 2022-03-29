@@ -2,17 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Item from "../components/Item";
-import { loadDataFB, loadMoreFB } from "../redux/modules/word";
+import { loadMoreFB } from "../redux/modules/word";
 import { CardWrap, FixBtn } from "../Styled";
 
 const Home = () => {
   const list = useSelector((state) => state.word.list);
-  const lastValue = useSelector((state) => state.word.lastValue);
-  // console.log(lastValue);
+  const lastDate = useSelector((state) => state.word.lastDate);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [target, setTarget] = useState(null);
+
+  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     let options = {
@@ -22,7 +23,7 @@ const Home = () => {
       if (!entries.isIntersecting) {
         return;
       } else {
-        await dispatch(loadMoreFB(lastValue));
+        await dispatch(loadMoreFB(lastDate));
         observer.unobserve(entries.target);
       }
     };
@@ -48,6 +49,14 @@ const Home = () => {
         }}
       >
         +
+      </FixBtn>
+      <FixBtn
+        style={{ background: "tomato", right: "100px" }}
+        onClick={() => {
+          setCheck(!check);
+        }}
+      >
+        {check ? "체크보기" : "none체크 보기"}
       </FixBtn>
     </CardWrap>
   );
