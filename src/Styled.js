@@ -17,23 +17,50 @@ const Container = styled.div`
 `;
 
 const FilterBtn = styled.button`
-  margin-top: 80px;
-  padding: 20px;
+  position: fixed;
+  bottom: 100px;
+  right: 25px;
+  width: 55px;
+  height: 55px;
+  border-radius: 70%;
+  cursor: pointer;
+  transition: 1s;
+  background: transparent;
+  outline: none;
+  border: none;
+  &:hover {
+    color: black;
+    background: ${theme.colors.checkColor};
+    div {
+      display: block;
+    }
+  }
+  div {
+    display: none;
+    position: absolute;
+    z-index: 999;
+    bottom: 60px;
+    right: 0px;
+  }
+  p {
+    width: 200px;
+    padding: 12px 20px;
+  }
 `;
 
 const FixBtn = styled.div`
   position: fixed;
   bottom: 25px;
   right: 25px;
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   border-radius: 70%;
   background: ${theme.colors.mainColor};
   cursor: pointer;
   text-align: center;
   font-size: 30px;
   font-weight: 600;
-  line-height: 60px;
+  line-height: 55px;
   transition: 1s;
 
   &:hover {
