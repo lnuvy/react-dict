@@ -13,6 +13,12 @@ const Home = () => {
   const list = useSelector((state) => state.word.list);
   const lastDate = useSelector((state) => state.word.lastDate);
 
+  // const [list, setList] = useState([]);
+
+  // useEffect(() => {
+
+  // }, [list])
+
   // 인피니티 스크롤 state
   const [target, setTarget] = useState(null);
 

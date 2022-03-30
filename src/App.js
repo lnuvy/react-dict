@@ -13,7 +13,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadDataFB());
+    dispatch(loadDataFB()); // firestore 의 데이터를 가져오는 함수
   }, [dispatch]);
 
   return (

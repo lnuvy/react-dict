@@ -23,7 +23,36 @@ const DELETE = "dict/DELETE";
 const HEARD = "dict/HEARD";
 
 const initialState = {
-  list: [],
+  list: [
+    {
+      id: "1234",
+      word: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      description: "Aaaaaaaa",
+      example: "asdfasdf",
+      date: 12345678,
+    },
+    {
+      id: "12345",
+      word: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      description: "Aaaaaaaa",
+      example: "asdfasdf",
+      date: 2345678,
+    },
+    {
+      id: "12346",
+      word: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      description: "Aaaaaaaa",
+      example: "asdfasdf",
+      date: 112345678,
+    },
+    {
+      id: "12347",
+      word: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      description: "Aaaaaaaa",
+      example: "asdfasdf",
+      date: 123456788,
+    },
+  ],
   lastDate: 0,
 };
 
