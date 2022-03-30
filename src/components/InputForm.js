@@ -21,6 +21,10 @@ const InputForm = ({ data }) => {
 
   const onSubmit = () => {
     if (concept === "추가하기") {
+      if (!inputs.word || !inputs.description || !inputs.example) {
+        alert("신조어, 뜻, 활용예시는 반드시 입력해야합니다.");
+        return;
+      }
       dispatch(
         addDataFB({ date: new Date().getTime() + "", ...inputs, heard: false })
       );

@@ -57,14 +57,14 @@ const Home = () => {
       >
         +
       </FixBtn>
-      <FilterBtn>
+      {/* <FilterBtn>
         <BsFilterCircle size={55} />
         <div>
           <p>분홍색 카드만 보기</p>
           <p>보라색 카드만 보기</p>
           <p>초기화</p>
         </div>
-      </FilterBtn>
+      </FilterBtn> */}
     </CardWrap>
   );
 };
